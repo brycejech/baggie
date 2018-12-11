@@ -8,7 +8,7 @@ describe('Instance should handle events', () => {
     baggie = new Baggie();
 
     const event = 'my-event';
-    function fn(data){ console.log(data) }
+    function fn(data){ return data }
 
     test('Should register an event', () => {
         baggie.on(event, fn);
@@ -73,6 +73,30 @@ describe('Instance should handle global events', () => {
         baggie.offGlobal();
 
         expect(baggie._globals.length).toBe(0);
+    });
+});
+
+describe('Instance should reset on .empty', () => {
+    beforeEach(() => {
+        baggie = new Baggie();
+
+        baggie.on('evt', function(){});
+        baggie.onGlobal(function(){});
+        baggie.emit('evt');
+
+        baggie.empty();
+    });
+
+    test('_events should be empty', () => {
+        expect(Object.keys(baggie._events).length).toBe(0);
+    });
+
+    test('_global should be empty', () => {
+        expect(baggie._globals.length).toBe(0);
+    });
+
+    test('_history should be empty', () => {
+        expect(baggie._history.length).toBe(0);
     });
 });
 

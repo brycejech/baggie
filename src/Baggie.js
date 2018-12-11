@@ -1,9 +1,17 @@
 'use strict';
 
+function _setup(ctx){
+    ctx._events  = {};
+    ctx._globals = [];
+    ctx._history = [];
+
+    return ctx;
+}
+
 function Baggie(){
-    this._events  = {};
-    this._globals = [];
-    this._history = [];
+    _setup(this);
+
+    return this;
 }
 
 Baggie.prototype.on = function on(evt, cb){
@@ -72,5 +80,9 @@ Baggie.prototype.emit = function emit(evt, data){
 }
 
 Baggie.prototype.getHistory = function history(){ return this._history.reverse() }
+
+Baggie.prototype.empty = Baggie.prototype.reset = function empty(){
+    _setup(this);
+}
 
 module.exports = Baggie;
