@@ -100,6 +100,31 @@ describe('Instance should reset on .empty', () => {
     });
 });
 
+describe('Instance methods should support chaining', () => {
+    test('Chained methods work', () => {
+        baggie = new Baggie();
+
+        let emittedData,
+            emittedEvent;
+
+        const event = 'foo',
+              data  = 'bar';
+
+        baggie
+            .on(event, (data) => emittedData = data)
+            .onGlobal((evt, data) => emittedEvent = event)
+            .emit(event, data)
+            .off(event)
+            .offGlobal();
+
+        expect(baggie.history[0]).toBe('foo');
+        expect(emittedEvent).toBe(event);
+        expect(emittedData).toBe(data);
+        expect(baggie._events[event].length).toBe(0);
+        expect(baggie._globals.length).toBe(0);
+    });
+});
+
 describe('History getter should return event history', () => {
     test('Should show most recent events first', () => {
         baggie = new Baggie();
