@@ -1,0 +1,38 @@
+{
+  "name": "baggie",
+  "version": "1.0.0",
+  "description": "Event Emitter and Storage Manager",
+  "main": "dist/Baggie.min.js",
+  "scripts": {
+    "test": "jest",
+    "build": "webpack",
+    "build/dev": "npm run build -- --mode development",
+    "buid/watch": "npm run build/dev -- --watch",
+    "build/prod": "npm run build -- --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brycejech/baggie.git"
+  },
+  "keywords": [
+    "event",
+    "emitter",
+    "data",
+    "store"
+  ],
+  "author": "Bryce Jech",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brycejech/baggie/issues"
+  },
+  "homepage": "https://github.com/brycejech/baggie#readme",
+  "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-loader": "^8.0.4",
+    "jest": "^23.6.0",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
+  }
+}
