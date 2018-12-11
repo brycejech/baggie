@@ -100,6 +100,18 @@ describe('Instance should reset on .empty', () => {
     });
 });
 
+describe('History getter should return event history', () => {
+    test('Should show most recent events first', () => {
+        baggie = new Baggie();
+
+        const events = ['foo', 'bar', 'baz'];
+
+        events.forEach(evt => baggie.emit(evt));
+
+        expect(baggie.history).toEqual(events.reverse());
+    });
+});
+
 describe('baggie.on should throw errors', () => {
     baggie = new Baggie();
 

@@ -5,10 +5,12 @@ function _setup(ctx){
     ctx._globals = [];
     ctx._history = [];
 
-    // Get most recent items first
-    Object.defineProperty(ctx, 'history', {
-        get: function history(){ return ctx._history.reverse() }
-    });
+    if(!ctx.hasOwnProperty('history')){
+        // Get most recent items first
+        Object.defineProperty(ctx, 'history', {
+            get: function history(){ return ctx._history.reverse() }
+        });
+    }
 
     return ctx;
 }
