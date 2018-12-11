@@ -2,6 +2,7 @@
 
 function Baggie(){
     this._events  = {};
+    this._globals = [];
     this._history = [];
 }
 
@@ -36,7 +37,31 @@ Baggie.prototype.off = function off(evt, cb){
     if(idx >= 0) events.splice(idx, 1);
 }
 
+Baggie.prototype.onGlobal = function onGlobal(cb){
+    const globals = this._globals;
+
+    if(globals.indexOf(cb) === -1) globals.push(cb);
+}
+
+Baggie.prototype.offGlobal = function offGlobal(cb){
+
+    // If no callback provided, empty all events
+    if(!cb){
+        this._globals = [];
+        return;
+    }
+
+    const globals = this._globals,
+          idx     = globals.indexOf(cb);
+
+    if(idx >= 0) globals.splice(idx, 1);
+}
+
 Baggie.prototype.emit = function emit(evt, data){
+
+    // Call global handlers first
+    this._globals.forEach(fn =>  fn(evt, data));
+
     const fns = this._events[evt];
 
     if(!fns) return;

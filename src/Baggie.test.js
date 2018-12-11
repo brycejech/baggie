@@ -39,6 +39,43 @@ describe('Instance should handle events', () => {
     });
 });
 
+describe('Instance should handle global events', () => {
+    baggie = new Baggie();
+
+    let dataEmitted;
+
+    function fn(evt, data){ dataEmitted = data }
+
+    test('Should register a global event', () => {
+        baggie.onGlobal(fn);
+
+        expect(baggie._globals[0]).toBe(fn);
+    });
+
+    test('Should trigger a global event', () => {
+        const data = { foo: 'bar' }
+        baggie.emit('abc', data);
+
+        expect(dataEmitted).toBe(data);
+    });
+
+    test('Should remove a global event', () => {
+        baggie.offGlobal(fn);
+
+        expect(baggie._globals.length).toBe(0);
+    });
+
+    test('Should remove all global events', () => {
+        baggie.onGlobal(() => {});
+        baggie.onGlobal(() => {});
+        baggie.onGlobal(() => {});
+
+        baggie.offGlobal();
+
+        expect(baggie._globals.length).toBe(0);
+    });
+});
+
 describe('baggie.on should throw errors', () => {
     baggie = new Baggie();
 
