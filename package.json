@@ -1,6 +1,6 @@
 {
   "name": "baggie",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Event Emitter and Storage Manager",
   "main": "dist/Baggie.min.js",
   "scripts": {
