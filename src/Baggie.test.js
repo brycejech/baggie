@@ -156,3 +156,57 @@ describe('baggie.on should throw errors', () => {
         expect(() => baggie.on('evt')).toThrow();
     });
 });
+
+describe('baggie should store data', () => {
+
+    test('When given a path and a value', () => {
+        baggie = new Baggie();
+
+        baggie.add('a.b', 'foo');
+        baggie.add('a.c', 'bar');
+
+        const data = baggie.data;
+
+        expect(data).toEqual({ a: { b: 'foo', c: 'bar' } });
+    });
+
+    test('Should not throw if path invalid', () => {
+        baggie = new Baggie();
+
+        expect(baggie.add({}, 'foo')).toBe(baggie);
+    });
+});
+
+describe('baggie should get data', () => {
+    test('When given a path', () => {
+        baggie = new Baggie();
+
+        baggie.add('a.b.c', 'foo');
+
+        expect(baggie.get('a.b')).toEqual({ c: 'foo' });
+    });
+
+    test('Should return undefined if path not resolved', () => {
+        baggie = new Baggie();
+
+        baggie.add('a.b.c', 'foo');
+
+        expect(baggie.get('a.b.c.d')).toBeUndefined();
+    });
+});
+
+describe('baggie should unset data', () => {
+    test('Should return data that was unset', () => {
+        baggie = new Baggie();
+
+        baggie.add('a.b.c', 'foo');
+
+        expect(baggie.unset('a.b')).toEqual({ c: 'foo' });
+    });
+
+    test('Should not fail if path not resolved', () => {
+        baggie = new Baggie();
+
+        expect(baggie.unset('a.b.c')).toBeUndefined();
+    });
+});

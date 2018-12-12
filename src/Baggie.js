@@ -1,14 +1,23 @@
 'use strict';
 
+const dr = require('object-doctor');
+
 function _setup(ctx){
     ctx._events  = {};
     ctx._globals = [];
     ctx._history = [];
+    ctx._data    = {};
 
     if(!ctx.hasOwnProperty('history')){
         // Get most recent items first
         Object.defineProperty(ctx, 'history', {
             get: function history(){ return ctx._history.reverse() }
+        });
+    }
+
+    if(!ctx.hasOwnProperty('data')){
+        Object.defineProperty(ctx, 'data', {
+            get: function data(){ return ctx._data }
         });
     }
 
@@ -96,6 +105,26 @@ Baggie.prototype.emit = function emit(evt, data){
 }
 
 Baggie.prototype.getHistory = function history(){ return this._history.reverse() }
+
+Baggie.prototype.add = Baggie.prototype.set = function add(path, val, opt={}){
+    try{
+        dr.set(this._data, path, val, opt);
+    }
+    catch(e){ console.warn('Baggie.add: Invalid path argument') }
+
+    return this;
+}
+
+Baggie.prototype.get = function get(path, opt={}){
+    return dr.get(this._data, path, opt);
+}
+
+Baggie.prototype.unset = Baggie.prototype.remove = function unset(path, opt={ force: true }){
+    const old = dr.get(this._data, path);
+    dr.set(this._data, path, undefined, opt);
+
+    return old;
+}
 
 Baggie.prototype.empty = Baggie.prototype.reset = function empty(){
     _setup(this);
