@@ -1,6 +1,6 @@
 # Baggie
 
-Baggie is a lightweight event emitter and storage mechanism used for building modern event-driven applications.
+Baggie is a lightweight event emitter and storage mechanism used for building modern event-driven applications. Baggie is compatible in both browser and server environments.
 
 ## Installation
 
